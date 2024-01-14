@@ -1,0 +1,52 @@
+<ion-header class="ion-border">
+  <img src="/assets/img/logo-registrApp-sinbg.png" alt="Logo App">
+</ion-header>
+
+<ion-content>
+
+  <div class="d-flex-center">
+
+    <form [formGroup]="form" class="auth-form" (ngSubmit)="iniciarSesion()" (keypress.enter)="iniciarSesion()">
+
+      <ion-item>
+        <ion-icon name="mail-outline" color="primary" slot="start" aria-hidden="true"></ion-icon>
+        <ion-input class="custom-input" [formControl]="form.controls.email" label-placement="floating" label="Correo Duoc" type="email">
+        </ion-input>
+      </ion-item>
+
+      <div class="validators" *ngIf="form.controls.email.errors && form.controls.email.touched">
+        <div *ngIf="form.controls.email.errors?.['required']">El correo es obligatorio</div>
+        <div *ngIf="form.controls.email.errors?.['email']">Ingrese correo valido</div>
+      </div>
+  
+      <ion-item>
+        <ion-icon color="primary" slot="start" name="lock-closed-outline" aria-hidden="true"></ion-icon>
+        <ion-input class="custom-input" [formControl]="form.controls.password" label="Contraseña" label-placement="floating"
+          type="{{ showPassword ? 'text' : 'password' }}"></ion-input>
+  
+        <ion-button fill="clear" slot="end" aria-label="Show/hide" (click)="revela()">
+          <ion-icon slot="icon-only" name="{{ showPassword ? 'eye-off' : 'eye' }}" aria-hidden="true"></ion-icon>
+        </ion-button>
+
+      </ion-item>
+      
+      <div class="validators" *ngIf="form.controls.password.errors && form.controls.password.touched">
+        <div *ngIf="form.controls.password.errors?.['required']">La contraseña es obligatorio</div>
+      </div>
+      
+      <ion-button color="warning" mode="ios" [disabled]="form.invalid"  expand="block" type="submit" class="submit"  shape="round">
+        Iniciar Sesión
+        <ion-icon slot="end" name="log-in-outline"></ion-icon>
+      </ion-button>
+
+      <p class="ion-text-end" [routerLink]="['/login/recuperar']" routerLinkActive="router-link-active"  >¿Olvidaste tu contraseña? <ion-icon slot="end" name="arrow-redo-circle-outline"></ion-icon></p>
+
+      
+    </form>
+
+  </div>
+
+
+
+
+</ion-content>

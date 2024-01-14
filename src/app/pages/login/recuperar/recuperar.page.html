@@ -1,0 +1,37 @@
+<ion-header class="ion-border">
+  <img src="/assets/img/logo-registrApp-sinbg.png" alt="Logo App">
+</ion-header>
+
+<ion-content>
+
+  <div class="d-flex-center">
+
+    <form  [formGroup]="form" class="auth-form" (ngSubmit)="recuperarPassword()" (keypress.enter)="recuperarPassword()">
+
+      <ion-item>
+        <ion-icon name="mail-outline" color="primary" slot="start" aria-hidden="true"></ion-icon>
+        <ion-input class="custom-input" [formControl]="form.controls.email" label-placement="floating" label="Correo Duoc" type="email">
+        </ion-input>
+      </ion-item>
+
+      <div class="validators" *ngIf="form.controls.email.errors && form.controls.email.touched">
+        <div *ngIf="form.controls.email.errors?.['required']">El correo es obligatorio</div>
+        <div *ngIf="form.controls.email.errors?.['email']">Ingrese correo valido</div>
+      </div>
+  
+      
+      <ion-button color="warning" mode="ios" [disabled]="form.invalid"  expand="block" type="submit" class="submit"  shape="round">
+        Recuperar  <ion-icon slot="end" name="send-outline"></ion-icon>
+      </ion-button>
+
+      <p class="ion-text-end" [routerLink]="['/login']" routerLinkActive="router-link-active"  ><ion-icon slot="end" name="arrow-undo-circle-outline"></ion-icon> Volver al login </p>
+
+      
+    </form>
+
+  </div>
+
+
+
+
+</ion-content>

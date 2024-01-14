@@ -1,0 +1,22 @@
+ion-header img {
+    width: 45%;
+    display: block;
+    margin: 0 auto;
+}
+
+ion-header ion-toolbar {
+    --background: rgb(3, 3, 90);
+}
+
+@media only screen and (min-width: 992px) {
+    /* Estilos específicos para pantallas grandes */
+    ion-header img {
+        width: 10%;
+        display: block;
+        margin: 0 auto;
+    }
+
+    ion-header ion-toolbar {
+        --background: rgb(3, 3, 90);
+    }
+}
