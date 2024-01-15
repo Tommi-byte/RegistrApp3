@@ -5,18 +5,25 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
-  
-  <ion-card >
+
+  <ion-card>
     <ion-card-content>{{saludo}}</ion-card-content>
   </ion-card>
 
   <div id="container">
-    <ion-button color="warning" class="boton-qr"  >
+    <ion-button color="warning" class="boton-qr" (click)="scan()" [disabled]="!isSupported"  >
       <ion-icon name="qr-code-outline"></ion-icon>
     </ion-button>
     <p class="mensaje-qr">Desplegar Camara QR</p>
   </div>
 
+  <ion-list>
+    <ion-item *ngFor="let barcode of barcodes">
+      <ion-label position="stacked">{{ barcode.format }}</ion-label>
+      <ion-input type="text" [value]="barcode.rawValue"></ion-input>
+    </ion-item>
+  </ion-list>
+
+
+
 </ion-content>
-
-
