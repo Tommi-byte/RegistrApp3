@@ -1,0 +1,26 @@
+<ion-header class="ion-border ">
+  <a href="/login">
+    <img src="/assets/img/logo-registrApp-sinbg.png" alt="Logo App">
+  </a>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div id="container">
+
+    <img class="imagen-centrada" src="/assets/img/not-found.png" alt="Logo not found">
+
+    <h1>
+     :C error 404 ....Pagina No encontrada!
+    </h1>
+
+    <p>¡La página a la cual has intentado acceder ya no existe! Haz clic en el botón para volver atrás</p>
+
+    <ion-button color="primary" mode="ios" [routerLink]="['/login']" routerLinkActive="router-link-active"   expand="block" type="button" class="submit"  shape="round">
+      QUIERO VOLVER 
+      <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+    </ion-button>
+  </div>
+
+
+</ion-content>

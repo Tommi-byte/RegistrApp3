@@ -13,6 +13,10 @@ const routes: Routes = [
     canActivate: [NologinGuard],
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
   },
+  {
+    path: '**',
+    loadChildren: () => import('./pages/notfound404/notfound404.module').then( m => m.Notfound404PageModule)
+  },
 
 
 ];

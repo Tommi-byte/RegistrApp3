@@ -1,0 +1,56 @@
+ion-header {
+    height: 220px;
+    background: rgb(3, 3, 90);
+}
+
+ion-header img {
+    display: block;
+    margin: 0 auto;
+    height: auto;
+    width: 80%;
+    margin-top: 60px;
+}
+
+@media only screen and (min-width: 992px) {
+    ion-header {
+        height: 110px;
+        img {
+            display: block;
+            margin: 0 auto;
+            height: auto;
+            width: 15%;
+            margin-top: 20px;
+        }
+    }
+}
+
+#container {
+    display: block;
+    margin: 0 auto;
+
+    h1 {
+        text-align: center;
+        color: grey;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 32px;
+    }
+
+    .imagen-centrada {
+        width: 30%;
+        display: block;
+        margin: 0 auto;
+    }
+
+    @media (max-width: 769px) {
+        .imagen-centrada {
+            width: 100%;
+        
+        }
+    }
+
+    p {
+        text-align: center;
+        color: grey;
+    }
+}

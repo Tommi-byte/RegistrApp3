@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
-import { Usuario } from 'src/app/interfaces/usuario';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilidadesService } from 'src/app/services/utilidades.service';
 
