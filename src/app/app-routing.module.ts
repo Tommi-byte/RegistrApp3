@@ -13,6 +13,8 @@ const routes: Routes = [
     canActivate: [NologinGuard],
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
   },
+
+
 ];
 @NgModule({
   imports: [

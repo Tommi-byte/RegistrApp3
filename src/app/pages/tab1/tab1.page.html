@@ -10,8 +10,39 @@
     <ion-card-content>{{saludo}}</ion-card-content>
   </ion-card>
 
+  <ion-list>
+    <ion-fab  horizontal="top" vertical="bottom">
+      <ion-fab-button size="small">
+        <ion-icon name="information-circle-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-list side="end">
+        <ion-fab-button color="success">
+          <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-button color="warning">
+          <ion-icon name="create-outline"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-button color="danger">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-fab-button>
+      </ion-fab-list>
+    </ion-fab>
+    <ion-item class="contenedor-frase-dia">
+      <ion-label>
+        <h1 class="titulo-frase-dia">Frase del dia:</h1>
+        <p class="frase-dia">" {{fraseDelDia}} "</p>
+        <p class="frase-dia">" - {{autorDelDia}} - "</p>
+      </ion-label>
+
+      <ion-button slot="bottom" color="warning" shape="round">
+        Click me
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+
   <div id="container">
-    <ion-button color="warning" class="boton-qr" (click)="scan()" [disabled]="!isSupported"  >
+    <ion-button color="warning" class="boton-qr" (click)="scan()" [disabled]="!isSupported">
       <ion-icon name="qr-code-outline"></ion-icon>
     </ion-button>
     <p class="mensaje-qr">Desplegar Camara QR</p>

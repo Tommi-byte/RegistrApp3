@@ -18,3 +18,21 @@
 .boton-qr ion-icon{
   font-size: 48px;
 }
+.contenedor-frase-dia{
+
+  padding: 5px;
+  border: 1px solid grey;
+  border-radius: 5px;
+
+  .titulo-frase-dia{
+    text-align: center;
+    color: grey;
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .frase-dia{
+    text-align: center;
+  }
+}
+

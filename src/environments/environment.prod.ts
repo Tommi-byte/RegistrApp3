@@ -7,5 +7,7 @@ export const environment = {
     storageBucket: "registrapp-319dd.appspot.com",
     messagingSenderId: "162841154807",
     appId: "1:162841154807:web:177e9d3fb6af9956bceff2"
-  }
+  },
+  urlApiWikipedia : 'https://en.wikipedia.org/w/api.php'
+
 };
