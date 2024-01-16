@@ -5,6 +5,10 @@ import { FormsModule } from '@angular/forms';
 import { Tab1Page } from './tab1.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
+
+import { BarcodeScanningModalComponent } from './barcode-scanning-modal.component';
+
+
 import { Tab1PageRoutingModule } from './tab1-routing.module';
 import { ModulesModule } from 'src/app/modules/modules.module';
 
@@ -17,6 +21,6 @@ import { ModulesModule } from 'src/app/modules/modules.module';
     Tab1PageRoutingModule,
     ModulesModule
   ],
-  declarations: [Tab1Page]
+  declarations: [Tab1Page, BarcodeScanningModalComponent]
 })
 export class Tab1PageModule {}

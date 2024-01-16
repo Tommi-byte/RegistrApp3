@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, ViewChild, inject } from '@angular/core';
 import { AlertController, AnimationController, IonCard } from '@ionic/angular';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import type { Animation } from '@ionic/angular';
@@ -6,6 +6,10 @@ import { UtilidadesService } from 'src/app/services/utilidades.service';
 import { BarcodeScanner, BarcodeFormat, LensFacing, Barcode } from '@capacitor-mlkit/barcode-scanning';
 import { ApiservicesService } from 'src/app/services/apiservices.service';
 import { Frase } from 'src/app/classes/frase';
+import { BarcodeScanningModalComponent } from './barcode-scanning-modal.component';
+import { DialogService } from 'src/app/services/dialog.service';
+
+
 
 
 @Component({
@@ -15,9 +19,12 @@ import { Frase } from 'src/app/classes/frase';
 })
 export class Tab1Page implements OnInit {
 
-  isSupported = false;
+  public readonly barcodeFormat = BarcodeFormat;
+  public readonly lensFacing = LensFacing;
+  public isSupported = false;
+  public isPermissionGranted = false;
   barcodes: Barcode[] = [];
-  ObjfraseDelDia : Frase[] = [];
+  ObjfraseDelDia: Frase[] = [];
   fraseDelDia: string;
   autorDelDia: string;
   numeroAleatorio: number;
@@ -27,6 +34,8 @@ export class Tab1Page implements OnInit {
   animationCtrl = inject(AnimationController);
   alertController = inject(AlertController);
   apiService = inject(ApiservicesService);
+  dialogService = inject(DialogService);
+  ngZone = inject(NgZone);
 
   @ViewChild(IonCard, { read: ElementRef }) card: ElementRef<HTMLIonCardElement>;
 
@@ -35,53 +44,63 @@ export class Tab1Page implements OnInit {
   public saludo = this.obtenerSaludo();
 
   ngOnInit() {
+    // BarcodeScanner.isSupported().then((result) => {
+    //   this.isSupported = result.supported;
+    // });
+
     BarcodeScanner.isSupported().then((result) => {
       this.isSupported = result.supported;
     });
+    BarcodeScanner.checkPermissions().then((result) => {
+      this.isPermissionGranted = result.camera === 'granted';
+    });
 
-    console.log(this.getFraseDelDia());
+    this.getFraseDelDia();
   }
+
+  /* QR CAMARA */
+
+
+  public async startScan(): Promise<void> {
+    const formats = "barcodeFormat.QrCode";
+    const lensFacing = "lensFacing.Back";
+    const element = await this.dialogService.showModal({
+      component: BarcodeScanningModalComponent,
+      // Set `visibility` to `visible` to show the modal (see `src/theme/variables.scss`)
+      cssClass: 'barcode-scanning-modal',
+      showBackdrop: false,
+      componentProps: {
+        formats: formats,
+        lensFacing: lensFacing,
+      },
+    });
+    element.onDidDismiss().then((result) => {
+      const barcode: Barcode | undefined = result.data?.barcode;
+      if (barcode) {
+        this.barcodes = [barcode];
+      }
+    });
+  }
+
+
+
+
+  /*********************************** */
+
+
 
   generarNumeroAleatorio() {
     return this.numeroAleatorio = Math.floor(Math.random() * 20) + 1;
   }
 
-  getFraseDelDia(){
-    this.apiService.getFraseDelDia(this.generarNumeroAleatorio()).subscribe((data)=>{
+  getFraseDelDia() {
+    this.apiService.getFraseDelDia(this.generarNumeroAleatorio()).subscribe((data) => {
       this.ObjfraseDelDia = data;
       this.fraseDelDia = this.ObjfraseDelDia[0].frase;
       this.autorDelDia = this.ObjfraseDelDia[0].autor;
     });
   }
-  
-  async startScan(){
-    document.querySelector('body')?.classList.add('barcode-scanner-active');
 
-    const listener = await BarcodeScanner.addListener(
-      'barcodeScanned',
-      async result => {
-        console.log(result.barcode);
-      },
-    );
-      
-    // Start the barcode scanner
-    await BarcodeScanner.startScan();
-  }
-
-  async scan(): Promise<void> {
-    const granted = await this.requestPermissions();
-    if (!granted) {
-      this.presentAlert();
-      return;
-    }
-    const { barcodes } = await BarcodeScanner.scan();
-    this.barcodes.push(...barcodes);
-  }
-
-  async requestPermissions(): Promise<boolean> {
-    const { camera } = await BarcodeScanner.requestPermissions();
-    return camera === 'granted' || camera === 'limited';
-  }
 
   async presentAlert(): Promise<void> {
     const alert = await this.alertController.create({
@@ -125,5 +144,7 @@ export class Tab1Page implements OnInit {
 
     return saludo;
   }
+
+ 
 
 }
