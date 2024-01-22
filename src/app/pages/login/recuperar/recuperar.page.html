@@ -6,7 +6,7 @@
 
   <div class="d-flex-center">
 
-    <form  [formGroup]="form" class="auth-form" (ngSubmit)="recuperarPassword()" (keypress.enter)="recuperarPassword()">
+    <form  [formGroup]="form" class="auth-form"  (ngSubmit)="enviaEmail($event)" (keypress.enter)="enviaEmail($event)">
 
       <ion-item>
         <ion-icon name="mail-outline" color="primary" slot="start" aria-hidden="true"></ion-icon>

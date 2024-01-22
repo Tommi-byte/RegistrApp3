@@ -48,6 +48,8 @@ export class Tab1Page implements OnInit {
     //   this.isSupported = result.supported;
     // });
 
+
+
     BarcodeScanner.isSupported().then((result) => {
       this.isSupported = result.supported;
     });
@@ -145,6 +147,6 @@ export class Tab1Page implements OnInit {
     return saludo;
   }
 
- 
+
 
 }

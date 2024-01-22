@@ -10,8 +10,9 @@ import { AppComponent } from './app.component';
 import { environment } from 'src/environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 
+
 @NgModule({
-  imports: [AngularFireModule.initializeApp(environment.firebaseConfig),BrowserModule, IonicModule.forRoot({mode: 'md'}), AppRoutingModule, HttpClientModule],
+  imports: [ AngularFireModule.initializeApp(environment.firebaseConfig),BrowserModule, IonicModule.forRoot({mode: 'md'}), AppRoutingModule, HttpClientModule],
   declarations: [AppComponent],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

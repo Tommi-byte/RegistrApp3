@@ -36,7 +36,7 @@ export class LoginPage implements OnInit {
       await cargando.present();
 
       this.firebaseService.autenticarUsuario(this.form.value as Usuario).then( res => {
-        this.obtieneDatosUsuario(res.user.uid);
+        this.obtieneDatosUsuario(res.user.email);
       }).catch(error => {
 
         this.utilidadesService.presentAlert({
@@ -59,13 +59,13 @@ export class LoginPage implements OnInit {
     }
   }
 
-  async obtieneDatosUsuario(uid: string) {
+  async obtieneDatosUsuario(email: string) {
     if(this.form.valid){
 
       const cargando = await this.utilidadesService.cargando();
       await cargando.present();
 
-      let path = `usuarios/${uid}`
+      let path = `usuarios/${email}`
 
       this.firebaseService.selectRegistro(path).then( usuario => {
        

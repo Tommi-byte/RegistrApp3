@@ -8,6 +8,11 @@ export const environment = {
     messagingSenderId: "162841154807",
     appId: "1:162841154807:web:177e9d3fb6af9956bceff2"
   },
-  urlApiWikipedia : 'https://en.wikipedia.org/w/api.php'
+  
+  /* CLAVES EMAIL JS */
+  keyEmailJS : "2JVdSMcu5BK-d8TpY",
+  serviceId : "service_jkti7li",
+  templateId : "template_seoh505",
+
 
 };
