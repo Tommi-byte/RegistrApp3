@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
 import { Observable,of } from 'rxjs';
 import { Frase } from '../classes/frase';
+import { Asignatura } from '../classes/asignatura';
 
 
 @Injectable({
@@ -27,6 +28,15 @@ export class ApiservicesService {
       catchError(this.handleError<Frase[]>(`Get frase id=${id}`))
     );
   }
+
+  
+  getAsignaturas(): Observable<Asignatura[]> {
+    return this.http.get<Asignatura[]>(`${this.url}/obtener-asignaturas`).pipe(
+      tap((_) => console.log(`Se trajo asignaturas `)),
+      catchError(this.handleError<Asignatura[]>(`Error traer asignaturas`))
+    );
+  }
+
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

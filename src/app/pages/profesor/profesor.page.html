@@ -1,0 +1,41 @@
+<app-header>
+</app-header>
+
+<ion-content class="ion-padding">
+
+  <h1>{{saludo}}.</h1>
+  <p class="ion-text-center"></p>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Opciones QR</ion-card-title>
+      <ion-card-subtitle>Despliegue las opciones para escoger la asignatura.</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <form [formGroup]="form">
+
+        <ion-select [formControl]="form.controls.asignatura" label="Seleccione Asignatura" label-placement="floating"fill="outline" [disabled]="true" [value]="''">
+          <ion-select-option   value="" >--Seleccione--</ion-select-option>
+          <ion-select-option  *ngFor="let asignatura of asignaturas" value="{{asignatura.id}}">{{asignatura.nombre_asignatura}}</ion-select-option>
+        </ion-select>
+
+        <div class="validators" *ngIf="form.controls.asignatura.errors && form.controls.asignatura.touched">
+          <div *ngIf="form.controls.asignatura.errors?.['required']">Seleccione una opcion</div>
+        </div>
+
+      </form>
+
+    </ion-card-content>
+  </ion-card>
+
+  <p class="ion-text-center">Los alumnos deben escanear el código QR desde su aplicación registrApp.</p>
+
+  <div class="centered-container">
+    <qrcode [qrdata]="form.controls.asignatura.value" [width]="256"></qrcode>
+  </div>
+
+
+
+</ion-content>

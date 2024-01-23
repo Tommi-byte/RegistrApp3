@@ -14,9 +14,14 @@ const routes: Routes = [
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
   },
   {
+    path: 'home/profesor',
+    loadChildren: () => import('./pages/profesor/profesor.module').then( m => m.ProfesorPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/notfound404/notfound404.module').then( m => m.Notfound404PageModule)
   },
+
 
 
 ];

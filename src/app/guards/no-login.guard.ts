@@ -7,13 +7,20 @@ export const NologinGuard = () => {
     const firebaseService = inject(FirebaseService)
     const utilidadesService = inject(UtilidadesService);
 
-    if(!localStorage.getItem('usuario')){
-        if(firebaseService.obtieneUsuarioAutenticado){
+    if (!localStorage.getItem('usuario')) {
+        if (firebaseService.obtieneUsuarioAutenticado) {
             return true;
         }
         return null;
-    }else{
-        utilidadesService.routerLink('/tabs/tab1');
-        return false;
+    } else {
+        if (localStorage.getItem('usuario[type]') == 'estudiante') {
+            utilidadesService.routerLink('/tabs/tab1');
+            return false;
+
+        } else {
+            utilidadesService.routerLink('/home/profesor');
+            return false;
+
+        }
     }
 }

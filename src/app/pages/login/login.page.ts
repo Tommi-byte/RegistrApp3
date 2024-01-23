@@ -70,7 +70,13 @@ export class LoginPage implements OnInit {
       this.firebaseService.selectRegistro(path).then( usuario => {
        
         this.utilidadesService.guardaEnLocalStorage('usuario', usuario);
-        this.utilidadesService.routerLink("/tabs/tab1");
+
+        if(usuario['type'] == 'estudiante'){
+          this.utilidadesService.routerLink("/tabs/tab1");
+        }else{
+          this.utilidadesService.routerLink("/home/profesor");
+        }
+      
         this.form.reset();
 
         this.utilidadesService.presentToast({

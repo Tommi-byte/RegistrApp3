@@ -28,6 +28,7 @@ export class Tab1Page implements OnInit {
   fraseDelDia: string;
   autorDelDia: string;
   numeroAleatorio: number;
+  dataQr : any;
 
   utilidadesService = inject(UtilidadesService);
   firebaseService = inject(FirebaseService);
@@ -47,8 +48,6 @@ export class Tab1Page implements OnInit {
     // BarcodeScanner.isSupported().then((result) => {
     //   this.isSupported = result.supported;
     // });
-
-
 
     BarcodeScanner.isSupported().then((result) => {
       this.isSupported = result.supported;
@@ -79,7 +78,22 @@ export class Tab1Page implements OnInit {
     element.onDidDismiss().then((result) => {
       const barcode: Barcode | undefined = result.data?.barcode;
       if (barcode) {
-        this.barcodes = [barcode];
+        this.dataQr = barcode;
+
+        this.utilidadesService.presentAlert({
+          header: 'Exito!',
+          message: 'Se ha registrado la asistencia correctamente',
+          buttons : [
+            {
+              text: 'Ok',
+              role: 'confirm',
+              cssClass: 'primary',
+              handler: () => {
+                this.utilidadesService.routerLink('/tabs/tab2');
+              },
+            },
+          ]
+        })
       }
     });
   }
