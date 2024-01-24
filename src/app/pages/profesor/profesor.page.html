@@ -16,10 +16,14 @@
 
       <form [formGroup]="form">
 
-        <ion-select [formControl]="form.controls.asignatura" label="Seleccione Asignatura" label-placement="floating"fill="outline" [disabled]="true" [value]="''">
-          <ion-select-option   value="" >--Seleccione--</ion-select-option>
-          <ion-select-option  *ngFor="let asignatura of asignaturas" value="{{asignatura.id}}">{{asignatura.nombre_asignatura}}</ion-select-option>
-        </ion-select>
+        <ng-container *ngIf="asignaturas && asignaturas.length > 0">
+          <ion-select [formControl]="form.controls.asignatura" label="Seleccione Asignatura" label-placement="floating" fill="outline">
+            <ion-select-option value="" selected>--Seleccione--</ion-select-option>
+            <ion-select-option *ngFor="let asignatura of asignaturas" value="{{asignatura.id}}">
+              {{asignatura.nombre_asignatura}}
+            </ion-select-option>
+          </ion-select>
+        </ng-container>
 
         <div class="validators" *ngIf="form.controls.asignatura.errors && form.controls.asignatura.touched">
           <div *ngIf="form.controls.asignatura.errors?.['required']">Seleccione una opcion</div>
@@ -33,7 +37,7 @@
   <p class="ion-text-center">Los alumnos deben escanear el código QR desde su aplicación registrApp.</p>
 
   <div class="centered-container">
-    <qrcode [qrdata]="form.controls.asignatura.value" [width]="256"></qrcode>
+    <qrcode *ngIf="form.controls.asignatura.value" [qrdata]="form.controls.asignatura.value" [width]="256"  [allowEmptyString]="true"></qrcode>
   </div>
 
 

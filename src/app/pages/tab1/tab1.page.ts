@@ -8,6 +8,9 @@ import { ApiservicesService } from 'src/app/services/apiservices.service';
 import { Frase } from 'src/app/classes/frase';
 import { BarcodeScanningModalComponent } from './barcode-scanning-modal.component';
 import { DialogService } from 'src/app/services/dialog.service';
+import { environment } from 'src/environments/environment.prod';
+import emailjs, { EmailJSResponseStatus } from '@emailjs/browser';
+
 
 
 
@@ -19,6 +22,11 @@ import { DialogService } from 'src/app/services/dialog.service';
 })
 export class Tab1Page implements OnInit {
 
+  fechaActual: Date = new Date();
+  soloFecha : string = this.fechaActual.toISOString().split('T')[0];
+
+  public messageEmail: any;
+  public dataUser: any;
   public readonly barcodeFormat = BarcodeFormat;
   public readonly lensFacing = LensFacing;
   public isSupported = false;
@@ -28,7 +36,7 @@ export class Tab1Page implements OnInit {
   fraseDelDia: string;
   autorDelDia: string;
   numeroAleatorio: number;
-  dataQr : any;
+  dataQr: string;
 
   utilidadesService = inject(UtilidadesService);
   firebaseService = inject(FirebaseService);
@@ -37,6 +45,21 @@ export class Tab1Page implements OnInit {
   apiService = inject(ApiservicesService);
   dialogService = inject(DialogService);
   ngZone = inject(NgZone);
+
+  publicKey = environment.keyEmailJS;
+  serviceId = environment.serviceId;
+  templateId = 'template_mochxsq';
+
+  templateParams = {
+    nameProfesor: '',
+    asignatura: '',
+    name: '',
+    email: '',
+    message: '',
+    fecha: '',
+  };
+
+  profesor: any;
 
   @ViewChild(IonCard, { read: ElementRef }) card: ElementRef<HTMLIonCardElement>;
 
@@ -57,10 +80,10 @@ export class Tab1Page implements OnInit {
     });
 
     this.getFraseDelDia();
+
   }
 
   /* QR CAMARA */
-
 
   public async startScan(): Promise<void> {
     const formats = "barcodeFormat.QrCode";
@@ -78,17 +101,20 @@ export class Tab1Page implements OnInit {
     element.onDidDismiss().then((result) => {
       const barcode: Barcode | undefined = result.data?.barcode;
       if (barcode) {
-        this.dataQr = barcode;
-
+        this.apiService.getDetalleAsignatura(1).subscribe(data => {
+          this.templateParams.nameProfesor = data[0]['nombreTutor']
+          this.templateParams.asignatura = data[0]['nombre_asignatura']
+        })
         this.utilidadesService.presentAlert({
           header: 'Exito!',
           message: 'Se ha registrado la asistencia correctamente',
-          buttons : [
+          buttons: [
             {
               text: 'Ok',
               role: 'confirm',
               cssClass: 'primary',
               handler: () => {
+                this.enviaEmail();
                 this.utilidadesService.routerLink('/tabs/tab2');
               },
             },
@@ -98,13 +124,19 @@ export class Tab1Page implements OnInit {
     });
   }
 
-
-
+  async enviaEmail() {
+    this.dataUser = this.firebaseService.obtieneDatos(this.usuario.email);
+    await this.dataUser.then(data => {
+      this.templateParams.email = 'cri.jimenez24@gmail.com';
+      this.templateParams.name = data.name;
+      this.templateParams.fecha = this.soloFecha;
+      emailjs.send(this.serviceId, this.templateId, this.templateParams, this.publicKey)
+    }).catch(error => {
+      console.error('Error al traer los datos del usuario');
+    })
+  }
 
   /*********************************** */
-
-
-
   generarNumeroAleatorio() {
     return this.numeroAleatorio = Math.floor(Math.random() * 20) + 1;
   }

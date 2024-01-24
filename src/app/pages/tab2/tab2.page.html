@@ -1,9 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Header</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <p style="top: 50%">Hola mudndo!</p>
+<ion-content class="ion-padding">
+
+    <div *ngFor="let detalle of detallesAsignaturas">
+      <ion-card>
+        <img alt="Imagen Curso" src="{{detalle[0].urlImagen}}" />
+        <ion-card-header>
+          <ion-card-title>{{detalle[0].nombre_asignatura}}</ion-card-title>
+          <ion-card-subtitle>{{detalle[0].nombreTutor}}</ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+          <ion-accordion-group>
+            <ion-accordion value="first">
+              <ion-item slot="header" color="light">
+                <ion-label>Asistencia</ion-label>
+              </ion-item>
+              
+              <div  *ngFor="let item of detalle[0].asistencia" class="ion-padding" slot="content">
+                <span class="estado"> {{item.fecha | date:'dd/MM/yyyy'}} - {{item.estado}}</span> 
+              </div>
+            </ion-accordion>
+          </ion-accordion-group>
+        </ion-card-content>
+      </ion-card>
+  </div>
+
+
 </ion-content>

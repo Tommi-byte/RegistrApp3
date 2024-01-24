@@ -4,6 +4,8 @@ import { catchError, tap } from 'rxjs/operators';
 import { Observable,of } from 'rxjs';
 import { Frase } from '../classes/frase';
 import { Asignatura } from '../classes/asignatura';
+import { Asistencia } from '../classes/asistencia';
+import { Inscripciones } from '../classes/inscripciones';
 
 
 @Injectable({
@@ -30,12 +32,41 @@ export class ApiservicesService {
   }
 
   
+  // API ASISTENCIAS
+  getInscripciones(uid : any): Observable<Inscripciones[]> {
+    return this.http.get<Inscripciones[]>(`${this.url}/obtener-inscripciones/${uid}`).pipe(
+      tap((_) => console.log(`Se trajo asignaturas `)),
+      catchError(this.handleError<Inscripciones[]>(`Error traer asignaturas`))
+    );
+  }
+
   getAsignaturas(): Observable<Asignatura[]> {
     return this.http.get<Asignatura[]>(`${this.url}/obtener-asignaturas`).pipe(
       tap((_) => console.log(`Se trajo asignaturas `)),
       catchError(this.handleError<Asignatura[]>(`Error traer asignaturas`))
     );
   }
+
+  getDetalleAsignatura(id : any): Observable<Asignatura[]> {
+    return this.http.get<Asignatura[]>(`${this.url}/obtener-detalle-asignatura/${id}`).pipe(
+      tap((_) => console.log(`Se trajo la asignatura `)),
+      catchError(this.handleError<Asignatura[]>(`Error traer la asignatura`))
+    );
+  }
+
+  // getAsistenciaAlumno(uid : any, idAsignatura : any): Observable<Asistencia[]> {
+  //   return this.http.get<Asistencia[]>(`${this.url}/obtener-asistencia/${uid}`).pipe(
+  //     tap((_) => console.log(`Se trajo la asitencia del alumno `)),
+  //     catchError(this.handleError<Asistencia[]>(`Error traer la asitencia del alumno `))
+  //   );
+  // }
+
+  getAsistenciaAlumno(uid: any, idAsignatura: any): Observable<Asistencia[]> {
+    return this.http.get<Asistencia[]>(`${this.url}/obtener-asistencia/${uid}/${idAsignatura}`).pipe(
+        tap((_) => console.log(`Se trajo la asistencia del alumno`)),
+        catchError(this.handleError<Asistencia[]>(`Error al traer la asistencia del alumno`))
+    );
+}
 
 
   private handleError<T>(operation = 'operation', result?: T) {
