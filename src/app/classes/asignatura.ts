@@ -1,9 +1,9 @@
 export class Asignatura {
     id: number;
     nombre_asignatura: string;
-    urlImagen: string;
-    nombreTutor: string;
-    asistencia: {
-
+    urlImagen : string;
+    nombreTutor : string;
+    asistencia : {
+        
     }
 }

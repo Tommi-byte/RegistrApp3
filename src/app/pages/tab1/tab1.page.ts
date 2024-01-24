@@ -100,6 +100,7 @@ export class Tab1Page implements OnInit {
     });
     element.onDidDismiss().then((result) => {
       const barcode: Barcode | undefined = result.data?.barcode;
+      this.dataQr = result.data;
       if (barcode) {
         this.apiService.getDetalleAsignatura(1).subscribe(data => {
           this.templateParams.nameProfesor = data[0]['nombreTutor']
