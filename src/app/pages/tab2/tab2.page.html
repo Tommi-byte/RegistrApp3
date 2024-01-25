@@ -6,28 +6,32 @@
 
 <ion-content class="ion-padding">
 
-    <div *ngFor="let detalle of detallesAsignaturas">
-      <ion-card>
-        <img alt="Imagen Curso" src="{{detalle[0].urlImagen}}" />
-        <ion-card-header>
-          <ion-card-title>{{detalle[0].nombre_asignatura}}</ion-card-title>
-          <ion-card-subtitle>{{detalle[0].nombreTutor}}</ion-card-subtitle>
-        </ion-card-header>
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
-        <ion-card-content>
-          <ion-accordion-group>
-            <ion-accordion value="first">
-              <ion-item slot="header" color="light">
-                <ion-label>Asistencia</ion-label>
-              </ion-item>
-              
-              <div  *ngFor="let item of detalle[0].asistencia" class="ion-padding" slot="content">
-                <span class="estado"> {{item.fecha | date:'dd/MM/yyyy'}} - {{item.estado}}</span> 
-              </div>
-            </ion-accordion>
-          </ion-accordion-group>
-        </ion-card-content>
-      </ion-card>
+  <div *ngFor="let detalle of detallesAsignaturas">
+    <ion-card>
+      <img alt="Imagen Curso" src="{{detalle[0].urlImagen}}" />
+      <ion-card-header>
+        <ion-card-title>{{detalle[0].nombre_asignatura}}</ion-card-title>
+        <ion-card-subtitle>{{detalle[0].nombreTutor}}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-accordion-group>
+          <ion-accordion value="first">
+            <ion-item slot="header" color="light">
+              <ion-label *ngIf="detalle[0].asistencia.length > 0">Asistencia</ion-label>
+              <ion-label *ngIf="detalle[0].asistencia.length == 0">No registra asistencia</ion-label>
+            </ion-item>
+            <div *ngFor="let item of detalle[0].asistencia" class="ion-padding" slot="content">
+              <span class="estado"> {{item.fecha | date:'dd/MM/yyyy'}} - {{item.estado}}</span>
+            </div>
+          </ion-accordion>
+        </ion-accordion-group>
+      </ion-card-content>
+    </ion-card>
   </div>
 
 

@@ -54,6 +54,13 @@ export class ApiservicesService {
     );
   }
 
+  postAsistencia(dataAsistencia : any){
+    return this.http.post<Asistencia[]>(`${this.url}/agregar-asistencia`, dataAsistencia).pipe(
+      tap((_) => console.log('Se inserto la asistencia')),
+      catchError(this.handleError<Asistencia[]>(`Error al insertar asistencia`))
+    )
+  }
+
   // getAsistenciaAlumno(uid : any, idAsignatura : any): Observable<Asistencia[]> {
   //   return this.http.get<Asistencia[]>(`${this.url}/obtener-asistencia/${uid}`).pipe(
   //     tap((_) => console.log(`Se trajo la asitencia del alumno `)),

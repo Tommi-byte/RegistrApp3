@@ -27,6 +27,14 @@ export class Tab2Page {
     this.getInscripciones();
   }
 
+  handleRefresh(event) {
+    setTimeout(() => {
+      // Any calls to load data go here
+      this.detallesAsignaturas = [];
+      this.getInscripciones();
+      event.target.complete();
+    }, 2000);
+  }
 
   async getInscripciones() {
     const cargando = await this.utilidadesService.cargando();

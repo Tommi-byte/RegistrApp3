@@ -10,10 +10,7 @@ import { BarcodeScanningModalComponent } from './barcode-scanning-modal.componen
 import { DialogService } from 'src/app/services/dialog.service';
 import { environment } from 'src/environments/environment.prod';
 import emailjs, { EmailJSResponseStatus } from '@emailjs/browser';
-
-
-
-
+import { scheduled } from 'rxjs';
 
 @Component({
   selector: 'app-tab1',
@@ -59,6 +56,15 @@ export class Tab1Page implements OnInit {
     fecha: '',
   };
 
+  
+  asistencia = {
+    fecha: '',
+    estado: '',
+    uid_estudiante: '',
+    id_asignatura: '',
+  };
+
+
   profesor: any;
 
   @ViewChild(IonCard, { read: ElementRef }) card: ElementRef<HTMLIonCardElement>;
@@ -80,7 +86,6 @@ export class Tab1Page implements OnInit {
     });
 
     this.getFraseDelDia();
-
   }
 
   /* QR CAMARA */
@@ -100,27 +105,36 @@ export class Tab1Page implements OnInit {
     });
     element.onDidDismiss().then((result) => {
       const barcode: Barcode | undefined = result.data?.barcode;
-      this.dataQr = result.data;
       if (barcode) {
-        this.apiService.getDetalleAsignatura(1).subscribe(data => {
+        this.dataQr = barcode.displayValue;
+        this.apiService.getDetalleAsignatura(this.dataQr).subscribe(data => {
           this.templateParams.nameProfesor = data[0]['nombreTutor']
           this.templateParams.asignatura = data[0]['nombre_asignatura']
+          // OBJECTO ASISTENCIA
+          this.asistencia.fecha = this.soloFecha;
+          this.asistencia.estado = 'presente';
+          this.asistencia.uid_estudiante = this.usuario.uid;
+          this.asistencia.id_asignatura = this.dataQr;
+          this.apiService.postAsistencia(this.asistencia).subscribe( data => {
+            console.log(data);
+            this.utilidadesService.presentAlert({
+              header: 'Exito!',
+              message: 'Se ha registrado la asistencia correctamente',
+              buttons: [
+                {
+                  text: 'Ok',
+                  role: 'confirm',
+                  cssClass: 'primary',
+                  handler: () => {
+                    this.enviaEmail();
+                    this.utilidadesService.routerLink('/tabs/tab2');
+                  },
+                },
+              ]
+            })
+          })
         })
-        this.utilidadesService.presentAlert({
-          header: 'Exito!',
-          message: 'Se ha registrado la asistencia correctamente',
-          buttons: [
-            {
-              text: 'Ok',
-              role: 'confirm',
-              cssClass: 'primary',
-              handler: () => {
-                this.enviaEmail();
-                this.utilidadesService.routerLink('/tabs/tab2');
-              },
-            },
-          ]
-        })
+
       }
     });
   }
@@ -149,7 +163,6 @@ export class Tab1Page implements OnInit {
       this.autorDelDia = this.ObjfraseDelDia[0].autor;
     });
   }
-
 
   async presentAlert(): Promise<void> {
     const alert = await this.alertController.create({
@@ -193,7 +206,5 @@ export class Tab1Page implements OnInit {
 
     return saludo;
   }
-
-
 
 }
